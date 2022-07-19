@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from time import sleep
 from urllib.parse import urljoin
+import pandas as pd
 
 
 class BelezaWeb:
