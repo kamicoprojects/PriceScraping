@@ -6,13 +6,16 @@ from urllib.parse import urljoin
 import pandas as pd
 from datetime import datetime
 import os
+import art
+import time
 
 
-print("###############################################################")
-print("# Beleza na Web Scraper - Dev. By Marcos Vinicius Madeira     #")
-print("#         \033[1;33;40mhttps://wellyington.github.io/\033[0;37;40m               #")
-print("#########################################################\n\n") 
+ascii = art.text2art("Kami Pricing")
+print(ascii)
 
+
+
+start = input("Pressione qualquer tecla para iniciar o scraping: ")
 try:
 
     from bs4 import BeautifulSoup   
@@ -27,6 +30,8 @@ except:
     install_json = lambda: os.system('pip3 install json')
     install_datetime = lambda: os.system('pip3 install datetime')
     install_os = lambda: os.system('pip3 install os')
+
+
 
     print("Upgrading Pip")
     print("----------------------------------------------------------")
@@ -80,7 +85,7 @@ def scraping(class_id) :
             row = json.loads(sellers)[0]
             "\n"
             print(
-                f"extract data from seller id: {row['seller']['id']} \
+                f"Extract data from seller id: {row['seller']['id']} \
                     | name: {row['seller']['name']} ")
             sellers_row = [
                 row['sku'],
@@ -104,7 +109,13 @@ def scraping(class_id) :
     hairpro_df.to_excel("hairpro_df.xlsx", index=False)  """
     
 
-    sellers_df.to_excel('pricing_29_07_2022.xlsx', index=True)       
+    sellers_df.to_excel('Pricing.xlsx', index=True)      
+    import time
+
+    
+    print("\033[1;33;40mScraping Complete\033[0;37;40m")    
+    exit = input("Pressione qualquer tecla para sair: ")
+
 scraping('btn btn-primary btn-block js-add-to-cart')            
 
         
