@@ -1,3 +1,4 @@
+from calendar import c
 import json
 import requests
 from bs4 import BeautifulSoup
@@ -7,12 +8,13 @@ import pandas as pd
 from datetime import datetime
 import os
 import art
-import time
+from rich.table import Table
+
 
 
 ascii = art.text2art("Kami Pricing")
 print(ascii)
-
+print("\033[1;33;40mForme preços competitivos na plataforma Beleza na Web\033[0;37;40m" + "\n")
 
 
 start = input("Pressione qualquer tecla para iniciar o scraping: ")
@@ -33,7 +35,8 @@ except:
 
 
 
-    print("Upgrading Pip")
+    up = print("Upgrading Pip")
+    
     print("----------------------------------------------------------")
     upgrade_pip()
     print("Downloading Bs4 Library an BeautifulSoup class ")
@@ -65,14 +68,13 @@ def scraping(class_id) :
     sellers_df_list = []
     hairpro_df_list = []
     columns = [
+
             "sku",
             "brand",
             "category",
             "name",
             "price",
             "seller_name",
-            
-            
         ]          
         
     for i in url:
@@ -107,12 +109,19 @@ def scraping(class_id) :
 
     hairpro_df = pd.DataFrame(hairpro_filter, columns=columns)
     hairpro_df.to_excel("hairpro_df.xlsx", index=False)  """
-    
 
-    sellers_df.to_excel('Pricing.xlsx', index=True)      
-    import time
+    #pegar a coluna price e retornar o menor numero para cada produto do concorrente
+    competing_sellers = sellers_df.groupby('sku').min()
+    print(competing_sellers)    
+    for i in competing_sellers.index:
+        print(f"{i} - {competing_sellers.loc[i]['price']}")
+
 
     
+    competing_sellers.to_excel('Pricing.xlsx', index=True)    
+
+
+      
     print("\033[1;33;40mScraping Complete\033[0;37;40m")    
     exit = input("Pressione qualquer tecla para sair: ")
 
